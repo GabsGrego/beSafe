@@ -1,6 +1,11 @@
 import { View, Text, Linking, TouchableOpacity } from 'react-native';
+//import { NavigationProp, useNavigation } from '@react-navigation/native';
+//import { RootStackParamList } from '../navigation/types';
 
-export default function SuporteEmocionalScreen() {
+const SuporteEmocionalScreen: React.FC = () => {
+    //const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+
 return (
     <View style={{ padding: 20 }}>
         <Text style={{ fontSize: 20, marginBottom: 10 }}>Contatos de Apoio Emocional</Text>
@@ -13,4 +18,6 @@ return (
         <Text style={{ fontSize: 18, marginTop: 10 }}>🏥 Defesa Civil: 199</Text>
     </View>
 );
-}
+};
+
+export default SuporteEmocionalScreen;

@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, Alert } from 'react-native';
 import { auth, db } from '../firebase/config';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
-export default function PerfilScreen() {
+const PerfilScreen: React.FC = () => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
 
@@ -38,4 +38,6 @@ return (
         <Button title="Salvar alterações" onPress={salvar} />
     </View>
 );
-}
+};
+
+export default PerfilScreen;

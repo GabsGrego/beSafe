@@ -1,6 +1,11 @@
 import { ScrollView, Text } from 'react-native';
+//import { NavigationProp, useNavigation } from '@react-navigation/native';
+//import { RootStackParamList } from '../navigation/types';
 
-export default function GruposVulneraveisScreen() {
+const GruposVulneraveisScreen: React.FC = () => {
+    //const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+
 return (
     <ScrollView contentContainerStyle={{ padding: 20 }}>
         <Text style={{ fontSize: 20 }}>Crianças:</Text>
@@ -16,4 +21,6 @@ return (
         <Text>- Leve em caixas de transporte, mantenha ração e água separadas.</Text>
     </ScrollView>
 );
-}
+};
+
+export default GruposVulneraveisScreen;

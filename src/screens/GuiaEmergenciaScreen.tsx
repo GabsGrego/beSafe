@@ -1,6 +1,10 @@
 import { View, ScrollView, Text } from 'react-native';
+//import { NavigationProp, useNavigation } from '@react-navigation/native';
+//import { RootStackParamList } from '../navigation/types';
 
-export default function GuiaEmergenciaScreen() {
+const GuiaEmergenciaScreen: React.FC = () => {
+    //const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
 return (
     <ScrollView contentContainerStyle={{ padding: 20 }}>
         <Text style={{ fontSize: 20, marginBottom: 10 }}>Antes da enchente:</Text>
@@ -16,4 +20,6 @@ return (
         <Text>- Higienize a casa com água sanitária.</Text>
     </ScrollView>
 );
-}
+};
+
+export default GuiaEmergenciaScreen;

@@ -3,11 +3,16 @@ import { View, Text, TextInput, Button, Alert } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
 
-export default function CadastroScreen({ navigation }: { navigation: any }) {
+
+const CadastroScreen: React.FC = () => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    
 
     const cadastrar = async () => {
     try {
@@ -36,4 +41,5 @@ return (
         <Button title="Cadastrar" onPress={cadastrar} />
     </View>
 );
-}
+};
+export default CadastroScreen;
