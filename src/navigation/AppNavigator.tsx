@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const AppNavigator: React.FC = () => {
     return (
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Cadastro" component={CadastroScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Perfil" component={PerfilScreen} />
