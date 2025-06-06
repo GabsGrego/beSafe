@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -13,11 +14,49 @@ const LoginScreen: React.FC = () => {
     const login = async () => {
     try {
         await signInWithEmailAndPassword(auth, email, senha);
+        Toast.show({
+            type: 'success',
+            text1: 'Login realizado com sucesso!',
+            text2: 'Bem-vindo ao Be Safe',
+            position: 'bottom',
+            visibilityTime: 3000,
+        });
         navigation.navigate('Home');
     } catch (error: any) {
-        Alert.alert('Erro ao logar:', error.message);
-    }
-};
+        let mensagemErro = 'Erro desconhecido';
+
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    mensagemErro = 'Usuário não encontrado';
+                    break;
+                case 'auth/wrong-password':
+                    mensagemErro = 'Senha incorreta';
+                    break;
+                case 'auth/invalid-email':
+                    mensagemErro = 'Email inválido';
+                    break;
+                case 'auth/user-disabled':
+                    mensagemErro = 'Usuário desabilitado';
+                    break;
+                case 'auth/too-many-requests':
+                    mensagemErro = 'Muitas tentativas. Tente novamente mais tarde';
+                    break;
+                case 'auth/network-request-failed':
+                    mensagemErro = 'Erro de conexão. Verifique sua internet';
+                    break;
+                default:
+                    mensagemErro = error.message;
+            }
+
+            Toast.show({
+                type: 'error',
+                text1: 'Erro ao fazer login',
+                text2: mensagemErro,
+                position: 'bottom',
+                visibilityTime: 4000,
+            });
+        }
+    };
 
 
 return (

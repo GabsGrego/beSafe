@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
 import { RootStackParamList } from '../navigation/types';
+import Toast from 'react-native-toast-message';
 
 const CadastroScreen: React.FC = () => {
     const [nome, setNome] = useState('');
@@ -12,26 +13,50 @@ const CadastroScreen: React.FC = () => {
     const [senha, setSenha] = useState('');
     const [confirmSenha, setConfirmSenha] = useState('');
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    
+
     const cadastrar = async () => {
         // Validações básicas
         if (!nome.trim()) {
-            Alert.alert('Erro', 'Por favor, digite seu nome');
+            Toast.show({
+                type: 'error',
+                text1: 'Campo obrigatório',
+                text2: 'Por favor, digite seu nome',
+                position: 'top',
+                visibilityTime: 3000,
+            });
             return;
         }
-        
+
         if (!email.trim()) {
-            Alert.alert('Erro', 'Por favor, digite seu email');
+            Toast.show({
+                type: 'error',
+                text1: 'Campo obrigatório',
+                text2: 'Por favor, digite seu email',
+                position: 'top',
+                visibilityTime: 3000,
+            });
             return;
         }
-        
+
         if (!senha || senha.length < 6) {
-            Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres');
+            Toast.show({
+                type: 'error',
+                text1: 'Senha inválida',
+                text2: 'A senha deve ter pelo menos 6 caracteres',
+                position: 'top',
+                visibilityTime: 3000,
+            });
             return;
         }
 
         if (senha !== confirmSenha) {
-            Alert.alert('Erro', 'As senhas não coincidem');
+            Toast.show({
+                type: 'error',
+                text1: 'Senhas não coincidem',
+                text2: 'Verifique se as senhas são idênticas',
+                position: 'top',
+                visibilityTime: 3000,
+            });
             return;
         }
 
@@ -47,32 +72,58 @@ const CadastroScreen: React.FC = () => {
                 email
             });
             
-            Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
-            navigation.navigate('Login');
+            Toast.show({
+                type: 'success',
+                text1: 'Cadastro realizado!',
+                text2: 'Sua conta foi criada com sucesso',
+                position: 'top',
+                visibilityTime: 3000,
+            });
+            
+            // Pequeno delay para mostrar o toast antes de navegar
+            setTimeout(() => {
+                navigation.navigate('Login');
+            }, 1000);
+            
         } catch (error: any) {
             console.error('Erro completo:', error);
             
             // Tratamento de erros específicos do Firebase
             let mensagemErro = 'Erro desconhecido';
+            let tituloErro = 'Erro ao cadastrar';
             
             switch (error.code) {
                 case 'auth/email-already-in-use':
-                    mensagemErro = 'Este email já está em uso';
+                    tituloErro = 'Email já cadastrado';
+                    mensagemErro = 'Este email já está em uso por outra conta';
                     break;
                 case 'auth/invalid-email':
-                    mensagemErro = 'Email inválido';
+                    tituloErro = 'Email inválido';
+                    mensagemErro = 'Formato de email inválido';
                     break;
                 case 'auth/weak-password':
-                    mensagemErro = 'Senha muito fraca';
+                    tituloErro = 'Senha muito fraca';
+                    mensagemErro = 'Escolha uma senha mais forte';
                     break;
                 case 'auth/operation-not-allowed':
-                    mensagemErro = 'Operação não permitida. Verifique as configurações do Firebase';
+                    tituloErro = 'Operação não permitida';
+                    mensagemErro = 'Verifique as configurações do Firebase';
+                    break;
+                case 'auth/network-request-failed':
+                    tituloErro = 'Erro de conexão';
+                    mensagemErro = 'Verifique sua conexão com a internet';
                     break;
                 default:
                     mensagemErro = error.message || 'Erro ao cadastrar usuário';
             }
-            
-            Alert.alert('Erro ao cadastrar', mensagemErro);
+
+            Toast.show({
+                type: 'error',
+                text1: tituloErro,
+                text2: mensagemErro,
+                position: 'top',
+                visibilityTime: 4000,
+            });
         }
     };
 
